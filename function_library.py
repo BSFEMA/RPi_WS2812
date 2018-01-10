@@ -8,7 +8,6 @@ from array import *
 import argparse
 import signal
 import sys
-import numpy
 
 def signal_handler(signal, frame):
         colorWipe(strip, Color(0,0,0))
