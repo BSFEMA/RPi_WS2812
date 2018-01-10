@@ -3,9 +3,9 @@
 # NeoPixel library extended example
 # Author: BSFEMA
 #
-# I followed this example to hook my Rpberry Pi 3 to a strip of WS2812B (60 LED per meter):
+# I followed this example to hook my Raspberry Pi 3 to a strip of WS2812B (60 LED per meter):
 #     https://dordnung.de/raspberrypi-ledstrip/ws2812
-# Based on the example code provided from the "WS281X Library":
+# I started with the example code provided from the "WS281X Library":
 #     https://github.com/jgarff/rpi_ws281x
 # and added the various functions from this Arduino tutorial:
 #     https://www.tweaking4all.com/hardware/arduino/adruino-led-strip-effects/
@@ -18,4 +18,4 @@
 #
 # To run it, I start a terminal, navigate to the folder with the files, and use the command:  sudo python main.py
 #
-# Note:  This was my first Raspberry Pi + GPIO project, my frist time with python, and my fist contribution to GitHub.
+# Note:  This was my first Raspberry Pi + GPIO project, my frist time with Python, and my fist contribution to GitHub.
