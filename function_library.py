@@ -8,6 +8,7 @@ from array import *
 import argparse
 import signal
 import sys
+import datetime
 
 def signal_handler(signal, frame):
         colorWipe(strip, Color(0,0,0))
@@ -520,6 +521,151 @@ def MorseCode(strip, red, green, blue, Message, DotLength):
     SetAll(strip, Color(0, 0, 0))
     strip.show()
     time.sleep(DotLength * 6)
+
+def Clock1(strip):
+    #This function is geared towards my 60 LED strip; you'll need to modify it if you have something else.
+    #Get the current Time
+    CurrentTime=datetime.datetime.now()
+    Hours = int(CurrentTime.hour)
+    Minutes = int(CurrentTime.minute)
+    Seconds = int(CurrentTime.second)
+    Microseconds = int(CurrentTime.microsecond) #range=1,000,000
+    #Convert from 24h to 12h
+    if (Hours>12):
+        AMPM="PM"
+        Hours=Hours-12
+    else:
+        AMPM="AM"
+    #Output    = LED   - Notes
+    #Hours     = 0-11  - Divided into 4 red, 4 green, and 4 blue for easier counting
+    #AMPM      = 12    - AM = solid white, PM = blinking white
+    #Seperator = 13
+    #Minutes   = 14-43 - 30 pixels - blinks the last pixel if it is the first half of the 2 minutes, solid for the 2nd half of the 2 minutes
+    #Seperator = 44
+    #Seconds   = 45-59 - 15 pixels - each pixel represents 4 seconds, the last pixel increases brightness for each second
+    SetAll(strip, Color(0, 0, 0))
+    #Hours
+    for i in range(1,4+1):
+        if (i>Hours):
+            strip.setPixelColor(i-1, Color(0, 0, 0))
+        else:
+            strip.setPixelColor(i-1, Color(255, 0, 0))
+    for i in range(5,8+1):
+        if (i>Hours):
+            strip.setPixelColor(i-1, Color(0, 0, 0))
+        else:
+            strip.setPixelColor(i-1, Color(0, 255, 0))
+    for i in range(9,12+1):
+        if (i>Hours):
+            strip.setPixelColor(i-1, Color(0, 0, 0))
+        else:
+            strip.setPixelColor(i-1, Color(0, 0, 255))
+    #AMPM
+    if (AMPM=='AM'):
+        strip.setPixelColor(12, Color(255, 255, 255))
+    else:
+        #Blink the PM
+        if (Microseconds<500000):
+            strip.setPixelColor(12, Color(0, 0, 0))
+        else:
+            strip.setPixelColor(12, Color(255, 255, 255))
+    #Seperator
+    strip.setPixelColor(13, Color(128, 0, 255))
+    #Minutes
+    for i in range(0,30):
+        if Minutes>((i*2)+1):
+            strip.setPixelColor(i+14, Color(255, 255, 0))
+        elif Minutes==(i*2) or Minutes==((i*2)+1):
+            if Minutes==(i*2):
+                if (Microseconds<500000):
+                    strip.setPixelColor(12, Color(0, 0, 0))
+                else:
+                    strip.setPixelColor(i+14, Color(255, 255, 0))
+            else:
+                strip.setPixelColor(i+14, Color(255, 255, 0))
+        else:
+            strip.setPixelColor(i+14, Color(0, 0, 0))
+    #Seperator
+    strip.setPixelColor(44, Color(128, 0, 255))
+    #Seconds
+    for i in range(0,15):
+        if Seconds>((i*4)+3):
+            strip.setPixelColor(i+45, Color(0, 255, 255))
+        elif (i*4) <= Seconds <= ((i*4)+3):
+            if Seconds==((i*4)+0):
+                strip.setPixelColor(i+45, Color(0, 51, 51))
+            elif Seconds==((i*4)+1):
+                strip.setPixelColor(i+45, Color(0, 102, 102))
+            elif Seconds==((i*4)+2):
+                strip.setPixelColor(i+45, Color(0, 153, 153))
+            else:
+                strip.setPixelColor(i+45, Color(0, 204, 204))
+        else:
+            strip.setPixelColor(i+45, Color(0, 0, 0))
+    #Show Results
+    strip.show()
+
+def Clock2(strip, IncludeHours):
+    #This function is geared towards my 60 LED strip; you'll need to modify it if you have something else.
+    #Based on this: https://www.youtube.com/watch?v=YTbRFqJvVOE
+    #Get the current Time
+    CurrentTime=datetime.datetime.now()
+    Hours = int(CurrentTime.hour)
+    Minutes = int(CurrentTime.minute)
+    Seconds = int(CurrentTime.second)
+    #Convert from 24h to 12h
+    if (Hours>12):
+        AMPM="PM"
+        Hours=Hours-12
+    else:
+        AMPM="AM"
+    #Output
+    SetAll(strip, Color(0, 0, 0))
+    if IncludeHours:
+        for i in range (0, 60):
+            if i%5==0:
+                strip.setPixelColor(i, Color(64, 64, 64))
+    HourPosition = Hours * 5
+    if HourPosition==60:
+        HourPosition=0
+    strip.setPixelColor(HourPosition, Color(255, 0, 0))
+    strip.setPixelColor(Minutes, Color(0, 255, 0))
+    strip.setPixelColor(Seconds, Color(0, 0, 255))
+    #Intersections
+    if Minutes==Seconds:
+        strip.setPixelColor(Seconds, Color(0, 255, 255))
+    if Seconds==HourPosition:
+        strip.setPixelColor(Seconds, Color(255, 0, 255))
+    if Minutes==HourPosition:
+        strip.setPixelColor(Seconds, Color(255, 255, 0))
+    if Seconds==HourPosition and Minutes==HourPosition:
+        strip.setPixelColor(Seconds, Color(255, 255, 255))
+    strip.show()
+    
+def FillDownRandom(strip, SpeedDelay, DisplayDelay, PauseDelay, FlushDelay):
+    SetAll(strip, Color(0, 0, 0))
+    #Fill down with random colors
+    for i in range(0, LED_COUNT):
+        r=random.randint(0, 255)
+        g=random.randint(0, 255)
+        b=random.randint(0, 255)
+        for j in range(0,LED_COUNT-i):
+            strip.setPixelColor(j, Color(r, g, b))
+            if j>0:
+                strip.setPixelColor(j-1, Color(0, 0, 0))
+            strip.show()
+            time.sleep(SpeedDelay)
+        time.sleep(DisplayDelay)
+    time.sleep(PauseDelay)
+    #"Flush" results
+    for i in range(LED_COUNT-1, -1, -1):
+        for j in range(LED_COUNT-1, 0, -1):
+            OldColor = strip.getPixelColor(j-1)
+            strip.setPixelColor(j, OldColor)
+        strip.setPixelColor(i-LED_COUNT+1, Color(0, 0, 0))
+        strip.show()
+        time.sleep(FlushDelay)
+    time.sleep(PauseDelay)
 
 """
 Done
