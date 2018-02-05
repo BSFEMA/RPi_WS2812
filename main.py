@@ -68,6 +68,8 @@ if __name__ == '__main__':
 			Clock2(strip, True)
 			print("Calling:  FillDownRandom(strip, 0, .1, 1, .2)")
 			FillDownRandom(strip, 0, .1, 1, .2)
+			print("Calling:  RandomColors(strip, .1)")
+			RandomColors(strip, .1)
 			print("========================================")
 			print("Looping")
 			print("========================================")
@@ -100,4 +102,5 @@ if __name__ == '__main__':
 		Clock1(strip)
 		Clock2(strip, True)
 		FillDownRandom(strip, 0, .1, 1, .2)
+		RandomColors(strip, .1)
 """

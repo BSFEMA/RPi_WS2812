@@ -667,6 +667,17 @@ def FillDownRandom(strip, SpeedDelay, DisplayDelay, PauseDelay, FlushDelay):
         time.sleep(FlushDelay)
     time.sleep(PauseDelay)
 
+def RandomColors(strip, SpeedDelay):
+    SetAll(strip, Color(0, 0, 0))
+    while True:
+        for i in range(0, LED_COUNT):
+            r=random.randint(0, 255)
+            g=random.randint(0, 255)
+            b=random.randint(0, 255)
+            strip.setPixelColor(i, Color(r, g, b))
+        strip.show()
+        time.sleep(SpeedDelay)
+
 """
 Done
 """
