@@ -11,6 +11,9 @@
 #     https://www.tweaking4all.com/hardware/arduino/adruino-led-strip-effects/
 # as well as some of my own things.
 #
+# Here is an example video of the various functions:
+#     https://www.youtube.com/watch?v=NI3_y6l6Bto
+#
 # My Raspberry Pi setup is just the 'Raspbian Stretch With Desktop':
 #     https://www.raspberrypi.org/downloads/raspbian/
 # I ran "sudo apt-get install xrdp" so I could remote into it to from my computer edit the python files and run it from a terminal.
