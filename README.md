@@ -18,4 +18,4 @@
 #
 # To run it, I start a terminal, navigate to the folder with the files, and use the command:  sudo python main.py
 #
-# Note:  This was my first Raspberry Pi + GPIO project, my frist time with Python, and my fist contribution to GitHub.
+# Note:  This was my first Raspberry Pi + GPIO project, my frist time with Python, and my first contribution to GitHub.
